@@ -4,8 +4,8 @@
       :breeds="breeds"
       :onBreedSelection="onBreedSelection"
       />
-  <div>
-    <img v-for="(image, index) in breedImages" :key="index" :src="image"/>
+  <div class="image-grid">
+    <img class="image-display" v-for="(image, index) in breedImages" :key="index" :src="image"/>
   </div>
   </div>
 </template>
@@ -48,5 +48,19 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-content:stretch;
+  height: 100%;
+  margin-top: 25px;
+}
+
+.image-display {
+  width: 33%;
+  height: 400px;
+  object-fit: cover;
 }
 </style>
