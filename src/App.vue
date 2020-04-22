@@ -1,17 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <SelectBreed
+      :breeds="breeds"
+      :onBreedSelection="onBreedSelection"
+      />
+  <div>
+    <img v-for="(image, index) in breedImages" :key="index" :src="image"/>
+  </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { BASE_URL, FETCH_BREEDS} from './constants/ApiConstants';
+import SelectBreed from './components/SelectBreed.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SelectBreed,
+  },
+  data: function() {
+    return {
+      breeds: [],
+      breedImages: [],
+    }
+  },
+  created() {
+    fetch(`${BASE_URL}${FETCH_BREEDS}`)
+      .then(response => response.json())
+      .then(breeds => this.breeds = Object.keys(breeds.message))
+  },
+  methods: {
+    onBreedSelection(breed) {
+      fetch(`${BASE_URL}breed/${breed}/images`)
+        .then(response => response.json())
+        .then(responseImages => this.breedImages = responseImages.message);
+    }
   }
 }
 </script>
